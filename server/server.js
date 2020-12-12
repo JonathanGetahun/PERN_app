@@ -3,12 +3,19 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./db')
 const morgan = require('morgan');
+const path = require("path");
 
 
 const app = express();
 app.use(cors());
 app.use(express.json())
 app.use(morgan("tiny"))
+
+
+//npm run build
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static('../client/build'))
+}
 
 
 //Get all restaurants
@@ -111,6 +118,11 @@ app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
         console.log(err)
     }
 })
+
+//add at bottom, "catch-all"
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 
 const port = process.env.PORT || 3001;
 app.listen(port , () => {
