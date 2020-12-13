@@ -12,7 +12,7 @@ const StarRating = ({ rating }) => {
         }
         }
         
-
+        console.log("OG rating", stars)
     return (
          <>{stars}</>
     )
